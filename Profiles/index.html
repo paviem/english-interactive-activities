@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profiles</title>
+<style>
+  :root { --teal:#00838f; --teal-dark:#00606b; --teal-tint:#e4f2f3; --ink:#26343a; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:20px 14px 40px; background:#f4f7f7; color:var(--ink); font:16px/1.5 -apple-system,"Segoe UI",Roboto,Arial,sans-serif; }
+  main { max-width:1100px; margin:0 auto; }
+  h1 { font-size:1.35rem; color:var(--teal-dark); border-bottom:3px solid var(--teal); padding-bottom:8px; margin:0 0 6px; }
+  p.lead { margin:0 0 24px; color:#4a5a60; font-size:.95rem; }
+  .gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; }
+  figure { margin:0; background:#fff; border:1px solid #d5e2e4; border-radius:10px; overflow:hidden; display:flex; flex-direction:column; }
+  figure a { display:block; background:var(--teal-tint); }
+  figure img { display:block; width:100%; height:auto; }
+  figcaption { padding:10px 14px 12px; font-weight:600; color:var(--teal-dark); font-size:.95rem; border-top:3px solid var(--teal); }
+  button.copy { margin:0 14px 14px; padding:7px 10px; border:1px solid #bcd9dc; border-radius:6px; background:var(--teal-tint); color:var(--teal-dark); font:600 .85rem/1 inherit; cursor:pointer; }
+  button.copy:hover, button.copy:focus-visible { background:var(--teal); color:#fff; border-color:var(--teal); outline:none; }
+  footer { text-align:center; color:#7c8d93; font-size:.8rem; margin-top:24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Profiles</h1>
+  <p class="lead">Click an image to open it full size in a new tab, or use “Copy image URL” to get the direct link to the original file.</p>
+  <div class="gallery">
+    <figure>
+      <a href="nuvio.JPG" target="_blank" rel="noopener noreferrer"><img src="nuvio.JPG" alt="nuvio" loading="lazy"></a>
+      <figcaption>nuvio</figcaption>
+      <button type="button" class="copy">Copy image URL</button>
+    </figure>
+  </div>
+  <footer>1 images</footer>
+</main>
+<script>
+document.querySelectorAll('button.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var url = b.parentNode.querySelector('img').src;
+    function done() { b.textContent = 'Copied!'; setTimeout(function () { b.textContent = 'Copy image URL'; }, 1500); }
+    function fallback() { var t = document.createElement('textarea'); t.value = url; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); done(); } catch (e) { window.prompt('Copy this URL:', url); } document.body.removeChild(t); }
+    if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(url).then(done, fallback); } else { fallback(); }
+  });
+});
+</script>
+</body>
+</html>
